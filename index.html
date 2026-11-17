@@ -76,6 +76,7 @@ button{font-family:inherit;cursor:pointer}
  color:#200e1b;
  font-size:17px;
  font-weight:bold;
+ border:0;
 }
 
 #error{color:#ff9bad;margin-top:12px}
@@ -127,6 +128,7 @@ button{font-family:inherit;cursor:pointer}
  animation:float 2s infinite;
 }
 
+/* زر الأغنية */
 .music{
  position:fixed;
  z-index:100;
@@ -139,6 +141,7 @@ button{font-family:inherit;cursor:pointer}
  color:#301326;
  font-size:23px;
  box-shadow:0 5px 25px #e9a4c344;
+ border:0;
 }
 
 .music.playing{animation:spin 5s linear infinite}
@@ -181,7 +184,7 @@ button{font-family:inherit;cursor:pointer}
  font-family:'Amiri',serif;
 }
 
-/* الصور */
+/* معرض الصور */
 .gallery{
  padding:65px 17px 90px;
  background:#100b16;
@@ -255,7 +258,10 @@ button{font-family:inherit;cursor:pointer}
  background:radial-gradient(circle,#422239,#100b16 75%);
 }
 
-.final .heart{font-size:55px;animation:pulse 2s infinite}
+.final .heart{
+ font-size:55px;
+ animation:pulse 2s infinite;
+}
 
 .final h2{
  font-family:'Amiri',serif;
@@ -285,7 +291,7 @@ footer{
  background:#100b16;
 }
 
-/* القلوب */
+/* القلوب المتحركة */
 .heart-float{
  position:fixed;
  bottom:-30px;
@@ -310,7 +316,10 @@ footer{
 }
 
 @keyframes rise{
- to{transform:translateY(-110vh) rotate(360deg);opacity:0}
+ to{
+  transform:translateY(-110vh) rotate(360deg);
+  opacity:0;
+ }
 }
 
 @keyframes fadeUp{
@@ -328,7 +337,7 @@ footer{
 
 <body>
 
-<!-- الدخول -->
+<!-- شاشة الباسورد -->
 <div id="lock">
  <div class="lock-card">
   <div class="lock-heart">❤️</div>
@@ -352,7 +361,7 @@ footer{
  </div>
 </div>
 
-<!-- الموقع -->
+<!-- الموقع الرئيسي -->
 <div id="main">
 
 <section class="hero">
@@ -370,10 +379,12 @@ footer{
  <div class="scroll">انزل واكتشف الحكاية ↓</div>
 </section>
 
+<!-- الرسالة -->
 <section class="message">
  <h2 class="section-title">رسالة ليك ❤️</h2>
 
  <div class="message-box">
+
   <p>
    مش عارف أبدأ كلامي منين، بس عارف إن في ناس وجودها في حياتنا بيخلّي لكل حاجة معنى مختلف.
   </p>
@@ -393,10 +404,13 @@ footer{
   <p class="highlight">
    وكل ما تشوفها تفتكر إنك شخص غالي ومميز جدًا. ❤️
   </p>
+
  </div>
 </section>
 
+<!-- الصور الثمانية -->
 <section class="gallery">
+
  <h2>لحظات تستاهل تفضل ❤️</h2>
  <p class="gallery-sub">كل صورة وراها حكاية جميلة...</p>
 
@@ -411,7 +425,7 @@ footer{
   </div>
 
   <div class="photo">
-   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/3fbad69c-9bb8-4653-be95-67ea5ea7ea" alt="ذكرى 3" loading="lazy">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/3fbad69c-9bb8-4653-be95-67ea5e710ea4.jpeg" alt="ذكرى 3" loading="lazy">
   </div>
 
   <div class="photo">
@@ -437,7 +451,9 @@ footer{
  </div>
 </section>
 
+<!-- النهاية -->
 <section class="final">
+
  <div class="heart">💗</div>
 
  <h2>وأجمل الحكايات لسه مكملة</h2>
@@ -450,6 +466,7 @@ footer{
  </p>
 
  <div class="signature">من القلب ❤️</div>
+
 </section>
 
 <footer>
@@ -463,17 +480,22 @@ footer{
  <source src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/361c873k.mp3" type="audio/mpeg">
 </audio>
 
-<button class="music" id="musicBtn" onclick="toggleMusic()" style="display:none">
+<!-- زر تشغيل وإيقاف الأغنية -->
+<button class="music" id="musicBtn"
+ onclick="toggleMusic()" style="display:none">
  ♪
 </button>
 
 <script>
-const correctPassword = "16122025";
+
+const correctPassword="16122025";
 
 function unlock(){
+
  const value=document.getElementById("password").value;
 
  if(value===correctPassword){
+
   document.getElementById("lock").style.display="none";
   document.getElementById("main").style.display="block";
 
@@ -481,6 +503,7 @@ function unlock(){
   btn.style.display="block";
 
   const song=document.getElementById("song");
+
   song.play().then(()=>{
    btn.classList.add("playing");
    btn.textContent="♫";
@@ -490,44 +513,67 @@ function unlock(){
 
   window.scrollTo(0,0);
   hearts();
+
  }else{
-  document.getElementById("error").textContent="الباسورد مش صحيح، حاول تاني ❤️";
+
+  document.getElementById("error").textContent=
+  "الباسورد مش صحيح، حاول تاني ❤️";
+
  }
+
 }
 
-document.getElementById("password").addEventListener("keydown",function(e){
- if(e.key==="Enter")unlock();
-});
+document.getElementById("password").addEventListener(
+ "keydown",function(e){
+  if(e.key==="Enter")unlock();
+ }
+);
 
 function toggleMusic(){
+
  const song=document.getElementById("song");
  const btn=document.getElementById("musicBtn");
 
  if(song.paused){
+
   song.play().then(()=>{
    btn.classList.add("playing");
    btn.textContent="♫";
   }).catch(()=>{});
+
  }else{
+
   song.pause();
   btn.classList.remove("playing");
   btn.textContent="▶";
+
  }
+
 }
 
 function hearts(){
+
  setInterval(()=>{
+
   const heart=document.createElement("div");
+
   heart.className="heart-float";
-  heart.textContent=["♥","♡","❤"][Math.floor(Math.random()*3)];
+  heart.textContent=["♥","♡","❤"][
+   Math.floor(Math.random()*3)
+  ];
+
   heart.style.left=Math.random()*100+"vw";
   heart.style.fontSize=(12+Math.random()*20)+"px";
   heart.style.animationDuration=(5+Math.random()*5)+"s";
+
   document.body.appendChild(heart);
 
   setTimeout(()=>heart.remove(),10000);
+
  },900);
+
 }
+
 </script>
 
 </body>
