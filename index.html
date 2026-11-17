@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100b16">
+<title>حكاية من القلب ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+ --pink:#e9a4c3;
+ --gold:#e8c7a2;
+ --dark:#100b16;
+}
+
+body{
+ background:var(--dark);
+ color:white;
+ font-family:'Cairo',sans-serif;
+ overflow-x:hidden;
+}
+
+button{font-family:inherit;cursor:pointer}
+
+/* شاشة الدخول */
+#lock{
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ background:radial-gradient(circle at center,#48253d,#100b16 75%);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:25px;
+ text-align:center;
+}
+
+.lock-card{width:100%;max-width:390px}
+
+.lock-heart{
+ font-size:65px;
+ animation:pulse 2s infinite;
+}
+
+.lock-card h1{
+ font-family:'Amiri',serif;
+ font-size:40px;
+ margin:15px 0;
+}
+
+.lock-card p{color:#d9b5c9;margin-bottom:25px}
+
+.lock-card input{
+ width:100%;
+ padding:16px;
+ border-radius:30px;
+ border:1px solid #a66b8c;
+ background:#ffffff10;
+ color:white;
+ text-align:center;
+ font-size:20px;
+ outline:none;
+ letter-spacing:5px;
+}
+
+.enter{
+ margin-top:18px;
+ padding:13px 40px;
+ border-radius:30px;
+ background:var(--pink);
+ color:#200e1b;
+ font-size:17px;
+ font-weight:bold;
+}
+
+#error{color:#ff9bad;margin-top:12px}
+
+/* المحتوى */
+#main{display:none}
+
+.hero{
+ min-height:95vh;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:30px 20px;
+ position:relative;
+ background:radial-gradient(ellipse at center,#48253c 0%,#100b16 75%);
+ overflow:hidden;
+}
+
+.hero .small{
+ color:var(--gold);
+ letter-spacing:4px;
+ font-size:12px;
+}
+
+.hero h1{
+ font-family:'Amiri',serif;
+ font-size:clamp(43px,10vw,76px);
+ font-weight:400;
+ margin:20px 0;
+ background:linear-gradient(90deg,#fff,#e9a4c3,#fff);
+ -webkit-background-clip:text;
+ color:transparent;
+ animation:fadeUp 2s ease;
+}
+
+.hero .intro{
+ color:#e5ceda;
+ font-size:16px;
+ line-height:2.2;
+ max-width:500px;
+}
+
+.scroll{
+ margin-top:65px;
+ color:#dca3bd;
+ font-size:13px;
+ animation:float 2s infinite;
+}
+
+.music{
+ position:fixed;
+ z-index:100;
+ bottom:22px;
+ left:20px;
+ width:54px;
+ height:54px;
+ border-radius:50%;
+ background:linear-gradient(135deg,#f1b5ce,#b96d91);
+ color:#301326;
+ font-size:23px;
+ box-shadow:0 5px 25px #e9a4c344;
+}
+
+.music.playing{animation:spin 5s linear infinite}
+
+/* الرسالة */
+.message{
+ padding:80px 25px;
+ text-align:center;
+ background:linear-gradient(#100b16,#211321,#100b16);
+}
+
+.section-title{
+ font-family:'Amiri',serif;
+ font-size:38px;
+ color:var(--pink);
+ margin-bottom:30px;
+}
+
+.message-box{
+ max-width:650px;
+ margin:auto;
+ padding:35px 25px;
+ border:1px solid #e9a4c333;
+ border-radius:22px;
+ background:#ffffff08;
+ box-shadow:0 15px 60px #0005;
+}
+
+.message-box p{
+ color:#e8d6df;
+ font-size:16px;
+ line-height:2.7;
+ margin-bottom:17px;
+ font-weight:300;
+}
+
+.message-box .highlight{
+ color:var(--pink);
+ font-size:20px;
+ font-family:'Amiri',serif;
+}
+
+/* الصور */
+.gallery{
+ padding:65px 17px 90px;
+ background:#100b16;
+}
+
+.gallery h2{
+ text-align:center;
+ font-family:'Amiri',serif;
+ font-size:39px;
+ color:var(--pink);
+ margin-bottom:12px;
+}
+
+.gallery-sub{
+ text-align:center;
+ color:#bba5b2;
+ margin-bottom:35px;
+ font-size:13px;
+}
+
+.photos{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px;
+ max-width:900px;
+ margin:auto;
+}
+
+.photo{
+ position:relative;
+ overflow:hidden;
+ border-radius:15px;
+ background:#291b29;
+ border:1px solid #e9a4c322;
+ box-shadow:0 10px 30px #0005;
+ aspect-ratio:4/5;
+ animation:fadeUp 1s both;
+}
+
+.photo:nth-child(even){transform:translateY(20px)}
+
+.photo img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ display:block;
+ transition:transform .8s;
+}
+
+.photo:active img{transform:scale(1.06)}
+
+.photo:after{
+ content:"♥";
+ position:absolute;
+ bottom:12px;
+ left:14px;
+ color:#fff;
+ text-shadow:0 2px 10px #000;
+ font-size:20px;
+}
+
+/* النهاية */
+.final{
+ min-height:65vh;
+ padding:70px 25px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ background:radial-gradient(circle,#422239,#100b16 75%);
+}
+
+.final .heart{font-size:55px;animation:pulse 2s infinite}
+
+.final h2{
+ font-family:'Amiri',serif;
+ color:var(--pink);
+ font-size:43px;
+ margin:20px 0;
+}
+
+.final p{
+ color:#e8d6df;
+ line-height:2.5;
+ max-width:480px;
+}
+
+.final .signature{
+ margin-top:35px;
+ font-family:'Amiri',serif;
+ color:var(--gold);
+ font-size:25px;
+}
+
+footer{
+ text-align:center;
+ color:#806b7b;
+ font-size:11px;
+ padding:20px;
+ background:#100b16;
+}
+
+/* القلوب */
+.heart-float{
+ position:fixed;
+ bottom:-30px;
+ color:#e9a4c3;
+ pointer-events:none;
+ z-index:50;
+ animation:rise linear forwards;
+}
+
+@keyframes pulse{
+ 0%,100%{transform:scale(1)}
+ 50%{transform:scale(1.13)}
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-12px)}
+}
+
+@keyframes spin{
+ to{transform:rotate(360deg)}
+}
+
+@keyframes rise{
+ to{transform:translateY(-110vh) rotate(360deg);opacity:0}
+}
+
+@keyframes fadeUp{
+ from{opacity:0;transform:translateY(30px)}
+ to{opacity:1;transform:translateY(0)}
+}
+
+@media(max-width:500px){
+ .photos{gap:10px}
+ .message-box{padding:27px 18px}
+ .message-box p{font-size:14px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- الدخول -->
+<div id="lock">
+ <div class="lock-card">
+  <div class="lock-heart">❤️</div>
+  <h1>في حاجة حلوة مستنياك</h1>
+  <p>لحظات وذكريات ورسالة من القلب...</p>
+
+  <input
+   id="password"
+   type="password"
+   inputmode="numeric"
+   placeholder="اكتب الباسورد"
+  >
+
+  <br>
+
+  <button class="enter" onclick="unlock()">
+   افتح حكايتنا ❤️
+  </button>
+
+  <div id="error"></div>
+ </div>
+</div>
+
+<!-- الموقع -->
+<div id="main">
+
+<section class="hero">
+ <span class="small">A LITTLE STORY OF LOVE</span>
+
+ <h1>حكاية من القلب ❤️</h1>
+
+ <p class="intro">
+  مش كل الحكايات بتتحكي بالكلام...
+  في حكايات بتتحس، وفي ذكريات بتفضل عايشة جوانا مهما عدى الوقت.
+  <br>
+  ودي حكاية حبيت أحتفظ بيها.
+ </p>
+
+ <div class="scroll">انزل واكتشف الحكاية ↓</div>
+</section>
+
+<section class="message">
+ <h2 class="section-title">رسالة ليك ❤️</h2>
+
+ <div class="message-box">
+  <p>
+   مش عارف أبدأ كلامي منين، بس عارف إن في ناس وجودها في حياتنا بيخلّي لكل حاجة معنى مختلف.
+  </p>
+
+  <p>
+   يمكن الصور دي مجرد لحظات، لكنها بالنسبالي حكايات كتير، وكل صورة فيها ذكرى تستاهل تفضل عايشة جوانا.
+  </p>
+
+  <p>
+   لو كان بإيدي أحتفظ بلحظة واحدة للأبد، كنت اخترت لحظة أكون فيها جنبك، من غير أي حاجة تانية تشغل بالي.
+  </p>
+
+  <p>
+   يمكن الكلام عمره ما يوصف كل اللي جوانا، بس حبيت أعملك حاجة تفضل ذكرى حلوة.
+  </p>
+
+  <p class="highlight">
+   وكل ما تشوفها تفتكر إنك شخص غالي ومميز جدًا. ❤️
+  </p>
+ </div>
+</section>
+
+<section class="gallery">
+ <h2>لحظات تستاهل تفضل ❤️</h2>
+ <p class="gallery-sub">كل صورة وراها حكاية جميلة...</p>
+
+ <div class="photos">
+
+  <div class="photo">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/169a37cb-5189-4f9d-a1b1-c4f670b02f15.jpeg" alt="ذكرى 1" loading="lazy">
+  </div>
+
+  <div class="photo">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/297ada33-65ba-40d0-aebe-673c2f15afea.jpeg" alt="ذكرى 2" loading="lazy">
+  </div>
+
+  <div class="photo">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/3fbad69c-9bb8-4653-be95-67ea5ea7ea" alt="ذكرى 3" loading="lazy">
+  </div>
+
+  <div class="photo">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/67906e1a-523b-4917-8153-ebf4e7a6a0d6.jpeg" alt="ذكرى 4" loading="lazy">
+  </div>
+
+  <div class="photo">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/b1b1b333-41cb-4f07-b9ab-f443fbf22a39.jpeg" alt="ذكرى 5" loading="lazy">
+  </div>
+
+  <div class="photo">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/b751d751-4c51-4826-8665-87a3c9f0b370.jpeg" alt="ذكرى 6" loading="lazy">
+  </div>
+
+  <div class="photo">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/c6c9f302-ca53-4468-895e-6b62ae2880aa.jpeg" alt="ذكرى 7" loading="lazy">
+  </div>
+
+  <div class="photo">
+   <img src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/d07e0eba-f37b-4dab-98e8-d2b4f786fad6.jpeg" alt="ذكرى 8" loading="lazy">
+  </div>
+
+ </div>
+</section>
+
+<section class="final">
+ <div class="heart">💗</div>
+
+ <h2>وأجمل الحكايات لسه مكملة</h2>
+
+ <p>
+  مش لازم كل حاجة حلوة يكون ليها سبب...
+  ساعات وجود شخص واحد بس بيكون كفاية يخلي الدنيا أحلى.
+  <br>
+  أتمنى تفضل الذكرى دي دايمًا سبب ابتسامة على وشك.
+ </p>
+
+ <div class="signature">من القلب ❤️</div>
+</section>
+
+<footer>
+ Made with love ❤️
+</footer>
+
+</div>
+
+<!-- الأغنية -->
+<audio id="song" loop preload="auto">
+ <source src="https://raw.githubusercontent.com/empiresilver39-afk/Ser/refs/heads/main/361c873k.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music" id="musicBtn" onclick="toggleMusic()" style="display:none">
+ ♪
+</button>
+
+<script>
+const correctPassword = "16122025";
+
+function unlock(){
+ const value=document.getElementById("password").value;
+
+ if(value===correctPassword){
+  document.getElementById("lock").style.display="none";
+  document.getElementById("main").style.display="block";
+
+  const btn=document.getElementById("musicBtn");
+  btn.style.display="block";
+
+  const song=document.getElementById("song");
+  song.play().then(()=>{
+   btn.classList.add("playing");
+   btn.textContent="♫";
+  }).catch(()=>{
+   btn.textContent="▶";
+  });
+
+  window.scrollTo(0,0);
+  hearts();
+ }else{
+  document.getElementById("error").textContent="الباسورد مش صحيح، حاول تاني ❤️";
+ }
+}
+
+document.getElementById("password").addEventListener("keydown",function(e){
+ if(e.key==="Enter")unlock();
+});
+
+function toggleMusic(){
+ const song=document.getElementById("song");
+ const btn=document.getElementById("musicBtn");
+
+ if(song.paused){
+  song.play().then(()=>{
+   btn.classList.add("playing");
+   btn.textContent="♫";
+  }).catch(()=>{});
+ }else{
+  song.pause();
+  btn.classList.remove("playing");
+  btn.textContent="▶";
+ }
+}
+
+function hearts(){
+ setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart-float";
+  heart.textContent=["♥","♡","❤"][Math.floor(Math.random()*3)];
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(12+Math.random()*20)+"px";
+  heart.style.animationDuration=(5+Math.random()*5)+"s";
+  document.body.appendChild(heart);
+
+  setTimeout(()=>heart.remove(),10000);
+ },900);
+}
+</script>
+
+</body>
+</html>
